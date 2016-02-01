@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Text Save</title>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+		html, body {
+			margin:0;
+			padding:0;
+			width:100%;
+			height:100%;
+			overflow:hidden;
+		}
+		#textBox {
+			width:100%;
+			height:100%;
+			border:none;
+			outline:none;
+			font-family:'Open Sans', 'Arial', sans-serif;
+			font-size:16px;
+			padding:50px;
+			box-sizing:border-box;
+		}
+	</style>
+</head>
+<body>
+	<textarea id="textBox"></textarea>
+	<script type="text/javascript">
+		var input = document.getElementById("textBox");
+		window.onload = function() {
+			input.focus();
+			input.value = localStorage.getItem('savedText');
+		};
+		input.onchange = input.onkeydown = input.onkeyup = function() {
+			localStorage.setItem('savedText', input.value);
+		};
+		window.addEventListener('storage', function(e) {
+			input.value = localStorage.getItem('savedText');
+		});
+	</script>
+</body>
+</html>
