@@ -27,14 +27,35 @@
 	<script type="text/javascript">
 		var input = document.getElementById("textBox");
 		window.onload = function() {
-			input.focus();
-			input.value = localStorage.getItem('savedText');
+		  input.focus();
+		  input.value = localStorage.getItem('savedText');
 		};
-		input.onchange = input.onkeydown = input.onkeyup = function() {
-			localStorage.setItem('savedText', input.value);
-		};
+
+		function saveToStorage() {
+		  console.log('saving')
+		  localStorage.setItem('savedText', input.value);
+		}
+
+		input.addEventListener('keyup', saveToStorage);
+		input.addEventListener('onchange', saveToStorage);
+		input.addEventListener('keydown', function(e) {
+		  if (e.which === 9) {
+		    var start = this.selectionStart;
+		    var end = this.selectionEnd;
+
+		    const tabString = '    ';
+
+		    input.value = input.value.substring(0, start)
+				+ tabString
+				+ input.value.substring(end);
+
+		    this.selectionStart = this.selectionEnd = start + tabString.length;
+		    e.preventDefault();
+		  }
+		})
+
 		window.addEventListener('storage', function(e) {
-			input.value = localStorage.getItem('savedText');
+		  input.value = localStorage.getItem('savedText');
 		});
 	</script>
 </body>
